@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="User" format="xml">
+      <types:example format="xml" element="order" location="examples/Users.xml"/>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#3e08a44a-6db8-4eb9-8897-bf24c604a73b">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="User"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

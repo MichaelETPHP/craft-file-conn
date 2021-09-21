@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d7f131e2-980d-4592-b3e1-86df24784ada" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="craft-file-connectorFlow" doc:id="d63b11a9-3415-4abe-ba8f-d5e65327dfa6" >
+		<http:listener doc:name="Listener" doc:id="df88d7c6-9f3f-410a-8e76-adf1b5e6a13e" config-ref="HTTP_Listener_config" path="/getxml"/>
+		<logger level="INFO" doc:name="Logger" doc:id="26450bdf-f802-4c44-a6fd-d0a223a5bd2c" />
+		<ee:transform doc:name="Transform Message" doc:id="3e08a44a-6db8-4eb9-8897-bf24c604a73b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	 address1: payload.order.buyer.address,
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="63776288-6e73-4cd2-869f-1ae31aa58919" message="#[payload]"/>
+	</flow>
+</mule>
